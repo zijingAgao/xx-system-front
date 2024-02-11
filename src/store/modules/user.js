@@ -21,7 +21,7 @@ const userReducer = userStore.reducer
 // 获取token
 const fetchLogin = (loginForm) => {
   return async (dispatch) => {
-    const res = await request.post('xx', loginForm)
+    const res = await request.post('/authorizations', loginForm)
     dispatch(setToken(res.data.token))
   }
 }
