@@ -1,0 +1,28 @@
+.ant-layout {
+  height: 100%;
+}
+
+.header {
+  background-color: #fff;
+}
+
+.user-info {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 20px;
+  color: #000;
+  
+  .user-name {
+    margin-right: 20px;
+    cursor: pointer;
+  }
+  
+  .user-logout {
+    cursor: pointer;
+  }
+}
+
+.layout-content {
+  overflow-y: auto;
+}
