@@ -4,12 +4,21 @@
   position: relative;
   background: linear-gradient(180deg, #3d7aff 0%, #3d7aff 50%, #fff 50%, #fff 100%);
   .login-container {
-    width: 320px;
-    height: 220px;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 50px rgba(0, 0, 0, 10%);
+    .title {
+      color: #fff;
+      font-size: 25px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .login-form {
+      width: 320px;
+      height: 290px;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 10%);
+    }
   }
 }
