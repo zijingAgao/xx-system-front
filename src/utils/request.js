@@ -1,8 +1,10 @@
 import axios from 'axios'
 import { getToken } from '@/utils'
+import { message } from 'antd'
 
 const request = axios.create({
   baseURL: 'http://geek.itheima.net/v1_0',
+  // baseURL: 'http://1.14.64.132:9999/api',
   timeout: 5000
 })
 
