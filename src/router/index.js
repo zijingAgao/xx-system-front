@@ -4,8 +4,7 @@ import Login from "../pages/Login";
 import { createBrowserRouter } from "react-router-dom";
 import { AuthRoute } from '@/components/AuthRoute'
 import Home from "@/pages/Home";
-import Article from "@/pages/Article";
-import Publish from "@/pages/Publish";
+import UserManage from "@/pages/UserManage";
 
 // 配置路由实例
 const router = createBrowserRouter([
@@ -18,13 +17,9 @@ const router = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: 'article',
-                element: <Article />
+                path: 'user',
+                element: <UserManage />
             },
-            {
-                path: 'publish',
-                element: <Publish />
-            }
         ]
     },
     {

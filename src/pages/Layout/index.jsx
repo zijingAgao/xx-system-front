@@ -1,8 +1,7 @@
 import { Layout, Menu, Popconfirm } from "antd"
 import {
   HomeOutlined,
-  DiffOutlined,
-  EditOutlined,
+  UserOutlined,
   LogoutOutlined
 } from '@ant-design/icons'
 import './index.scss'
@@ -17,15 +16,10 @@ const items = [
     icon: <HomeOutlined />
   },
   {
-    label: '文章管理',
-    key: '/article',
-    icon: <DiffOutlined />
+    label: '用户管理',
+    key: '/user',
+    icon: <UserOutlined />
   },
-  {
-    label: '创建文章',
-    key: '/publish',
-    icon: <EditOutlined />
-  }
 ]
 
 const MyLayout = () => {
@@ -61,7 +55,7 @@ const MyLayout = () => {
             onClick={onMenuClick}
           />
         </Sider>
-        <Layout className="layout-content" style={{padding: 20}}>
+        <Layout className="layout-content">
           {/* 二级路由出口 */}
           <Outlet />
         </Layout>

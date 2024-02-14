@@ -1,0 +1,11 @@
+.user-container {
+  background-color: #fff;
+  height: calc(100vh - 64px - 20px);
+  overflow: scroll;
+  padding: 24px;
+  .search {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
