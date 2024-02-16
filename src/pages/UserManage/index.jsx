@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Input, Button, Divider, Table, Switch, Space, Modal } from 'antd';
+import { Input, Button, Divider, Table, Switch, Space, Modal, Form } from 'antd';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import './index.scss'
 import AddUser from './AddUser';
@@ -24,7 +24,15 @@ const showConfirm = (id) => {
 };
 
 const UserManage = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
+  const [list, setList] = useState([])
+  const [total, setTotal] = useState(0)
+  // 查询列表参数
+  const [reqData, setReqData] = useState({
+    page: 0,
+    size: 5,
+  })
+
   const columns = [
     {
       title: '序号',
@@ -32,7 +40,8 @@ const UserManage = () => {
     },
     {
       title: '用户姓名',
-      dataIndex: 'nickName'
+      dataIndex: 'nickName',
+      render: (text) => text ? text : '-'
     },
     {
       title: '邮箱',
@@ -68,17 +77,17 @@ const UserManage = () => {
       )
     }
   ]
-  const [list, setList] = useState([]);
-
+  
   // 获取用户列表
   const getList = async () => {
-    const res = await getUserList()
+    const res = await getUserList(reqData)
     setList(res.data)
+    setTotal(res.pagination.totalElements)
   }
 
   useEffect(() => {
     getList()
-  }, [])
+  }, [reqData])
 
   const showDrawer = () => {
     setOpen(true)
@@ -86,18 +95,36 @@ const UserManage = () => {
   const hideDrawer = () => {
     setOpen(false)
   }
+
+  const onFinish = (formValue) => {
+    setReqData({...reqData, username: formValue.username})
+  }
+  // 分页
+  const onPageChange = (page) => {
+    setReqData({
+      ...reqData,
+      page: page - 1
+    })
+  }
   return (
     <>
       <div className="user-container">
-        <div className='search'>
-          邮箱：
-          <Input type="text" placeholder='请输入邮箱' style={{width: '150px', marginRight: '10px'}} />
-          <Button type='primary'>查询</Button>
-        </div>
+        <Form layout='inline' onFinish={onFinish}>
+          <Form.Item name='username' label='邮箱'>
+            <Input placeholder='请输入邮箱' />
+          </Form.Item>
+          <Form.Item>
+            <Button type='primary' htmlType='submit'>查询</Button>
+          </Form.Item>
+        </Form>
         <Divider />
         <Button type='primary' style={{marginBottom: '20px'}} onClick={showDrawer}>添加用户</Button>
         {/* 表格区域 */}
-        <Table rowKey='id' columns={columns} dataSource={list} />
+        <Table rowKey='id' columns={columns} dataSource={list} pagination={{
+          total,
+          pageSize: reqData.size,
+          onChange: onPageChange
+        }} />
         <AddUser open={open} hideDrawer={hideDrawer} getList={getList} />
       </div>
     </>
