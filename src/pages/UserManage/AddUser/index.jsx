@@ -1,14 +1,23 @@
-import { Drawer, Space, Button, Input, Form, Select, Switch } from "antd"
+import { Drawer, Space, Button, Input, Form, Select, Switch, message } from "antd"
 import { useState } from "react"
+import { addUser } from "@/apis/user"
 
-const AddUser = ({open, hideDrawer}) => {
+const AddUser = ({open, hideDrawer, getList}) => {
   const [autoPwd, setAutoPwd] = useState(false)
   const onChange = (checked) => {
     setAutoPwd(checked)
   }
-  const onFinish = (values) => {
+  const onFinish = async (formValue) => {
+    console.log(formValue)
+    // 1.请求接口
+    await addUser(formValue)
+    // 2.提示成功
+    message.success('添加用户成功')
+    // 3.刷新列表
+    getList()
+    // 4.关闭表单
+    // TODO:关闭的时候清除表单信息
     hideDrawer()
-    console.log(values)
   }
   return (
     <Drawer 
@@ -68,11 +77,11 @@ const AddUser = ({open, hideDrawer}) => {
             mode="multiple"
             options={[
               {
-                value: '系统管理员',
+                value: 'ADMIN',
                 label: '系统管理员'
               },
               {
-                value: '审计管理员',
+                value: 'AUDIT_ADMIN',
                 label: '审计管理员'
               }
             ]}
