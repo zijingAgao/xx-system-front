@@ -14,7 +14,6 @@ const Login = () => {
   const navigate = useNavigate()
   // 登录
   const onFinish = async (values) => {
-    console.log(values)
     await dispatch(fetchLogin(values))
     // 跳转到首页
     navigate('/')

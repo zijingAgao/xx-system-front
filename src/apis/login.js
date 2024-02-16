@@ -6,3 +6,19 @@ export function getCaptcha() {
     url: '/login/captcha'
   })
 }
+
+// 登录
+export function login(params) {
+  return request({
+    url: '/login',
+    method: 'POST',
+    params,
+  })
+}
+
+// 登出
+export function logout() {
+  return request({
+    url: '/logout'
+  })
+}
