@@ -99,10 +99,10 @@ const UserManage = () => {
     setReqData({ ...reqData, username: formValue.username });
   };
   // 分页
-  const onPageChange = (page) => {
+  const onPageChange = (page, pageSize) => {
     setReqData({
-      ...reqData,
       page: page - 1,
+      size: pageSize,
     });
   };
   // 删除
@@ -146,8 +146,16 @@ const UserManage = () => {
           pagination={{
             total,
             showTotal: () => `共 ${total} 条`,
-            pageSize: reqData.size,
             onChange: onPageChange,
+            defaultPageSize: 2,
+            showSizeChanger: true,
+            pageSizeOptions: [2, 5, 10],
+            showQuickJumper: true,
+            locale: {
+              items_per_page: "条/页",
+              jump_to: "跳至",
+              page: "页",
+            },
           }}
         />
         <AddUser open={open} hideDrawer={hideDrawer} getList={getList} />
