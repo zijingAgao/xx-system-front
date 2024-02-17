@@ -13,6 +13,7 @@ import {
 import "./index.scss";
 import AddUser from "./AddUser";
 import { getUserList, delUser } from "@/apis/user";
+import { roleEnum } from "@/constants/enums.js";
 
 const UserManage = () => {
   const [open, setOpen] = useState(false);
@@ -21,7 +22,7 @@ const UserManage = () => {
   // 查询列表参数
   const [reqData, setReqData] = useState({
     page: 0,
-    size: 2,
+    size: 5,
   });
 
   const columns = [
@@ -45,11 +46,13 @@ const UserManage = () => {
     {
       title: "角色",
       dataIndex: "roles",
-      render: (roles) => (
+      render: (text) => (
         <Space>
-          {roles.map((role) => {
-            return <span key={role}>{role}</span>;
-          })}
+          {text.length !== 0
+            ? text.map((item) => {
+                return <span key={item}>{roleEnum[item]}</span>;
+              })
+            : "-"}
         </Space>
       ),
     },
@@ -112,7 +115,6 @@ const UserManage = () => {
     await delUser(id);
     // 2.提示成功
     message.success("删除用户成功");
-    // 3.触发列表重新渲染
     setReqData({
       ...reqData,
     });
@@ -147,7 +149,7 @@ const UserManage = () => {
             total,
             showTotal: () => `共 ${total} 条`,
             onChange: onPageChange,
-            defaultPageSize: 2,
+            defaultPageSize: 5,
             showSizeChanger: true,
             pageSizeOptions: [2, 5, 10],
             showQuickJumper: true,
