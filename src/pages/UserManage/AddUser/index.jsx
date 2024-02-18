@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Drawer,
   Space,
@@ -9,9 +9,9 @@ import {
   Switch,
   message,
 } from "antd";
-import { addUser } from "@/apis/user";
+import { addUser, getUserDetail, updateUser } from "@/apis/user";
 
-const AddUser = ({ open, hideDrawer, getList }) => {
+const AddUser = ({ open, hideDrawer, getList, id }) => {
   const [form] = Form.useForm();
   const [autoPwd, setAutoPwd] = useState(false);
   const onChange = (checked) => {
@@ -19,9 +19,14 @@ const AddUser = ({ open, hideDrawer, getList }) => {
   };
   const onFinish = async (formValue) => {
     // 1.请求接口
-    await addUser(formValue);
-    // 2.提示成功
-    message.success("添加用户成功");
+    if (id.current) {
+      // 编辑
+      await updateUser({ ...formValue, id: id.current });
+      message.success("编辑用户成功");
+    } else {
+      await addUser(formValue);
+      message.success("添加用户成功");
+    }
     // 3.刷新列表
     getList();
     // 4.关闭表单
@@ -30,11 +35,29 @@ const AddUser = ({ open, hideDrawer, getList }) => {
   const onClose = () => {
     // 重置表单数据
     form.resetFields();
+    id.current = undefined;
     // 关闭表单
     hideDrawer();
   };
+  // 回填数据
+  useEffect(() => {
+    // 1.通过id获取数据
+    async function getDetail() {
+      const res = await getUserDetail(id.current);
+      form.setFieldsValue(res.data);
+    }
+    if (id.current) {
+      getDetail();
+    }
+    // 2.调用实例方法 完成回填
+  }, [id.current, form]);
   return (
-    <Drawer title="添加用户" onClose={onClose} open={open} width={500}>
+    <Drawer
+      title={id.current ? "编辑用户" : "添加用户"}
+      onClose={onClose}
+      open={open}
+      width={500}
+    >
       <Form layout="vertical" onFinish={onFinish} form={form}>
         <Form.Item
           label="邮箱"

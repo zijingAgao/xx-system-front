@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Input,
   Button,
@@ -12,8 +12,8 @@ import {
 } from "antd";
 import "./index.scss";
 import AddUser from "./AddUser";
-import { getUserList, delUser } from "@/apis/user";
-import { roleEnum } from "@/constants/enums.js";
+import { getUserList, delUser, disableUser, enableUser } from "@/apis/user";
+import { roleEnum } from "@/common/enum.js";
 
 const UserManage = () => {
   const [open, setOpen] = useState(false);
@@ -24,6 +24,7 @@ const UserManage = () => {
     page: 0,
     size: 5,
   });
+  const userId = useRef(undefined);
 
   const columns = [
     {
@@ -48,7 +49,7 @@ const UserManage = () => {
       dataIndex: "roles",
       render: (text) => (
         <Space>
-          {text.length !== 0
+          {text.length
             ? text.map((item) => {
                 return <span key={item}>{roleEnum[item]}</span>;
               })
@@ -59,21 +60,25 @@ const UserManage = () => {
     {
       title: "是否启用",
       dataIndex: "enabled",
-      render: (enabled) => <Switch checked={enabled} />,
+      render: (text) => <Switch checked={text} />,
     },
     {
       title: "操作",
-      render: (text, record, index) => (
+      render: (text) => (
         <Space>
-          <a>编辑</a>
+          <Button type="link" onClick={() => onUpdate(text.id)}>
+            编辑
+          </Button>
           <Popconfirm
             title="删除用户"
             description="你确定要删除该用户吗？"
-            onConfirm={() => onConfirm(record.id)}
+            onConfirm={() => onConfirm(text.id)}
             okText="确定"
             cancelText="取消"
           >
-            <a>删除</a>
+            <Button type="link" danger>
+              删除
+            </Button>
           </Popconfirm>
         </Space>
       ),
@@ -119,6 +124,12 @@ const UserManage = () => {
       ...reqData,
     });
   };
+  // 编辑
+  const onUpdate = (id) => {
+    userId.current = id;
+    setOpen(true);
+  };
+
   return (
     <>
       <div className="user-container">
@@ -160,7 +171,12 @@ const UserManage = () => {
             },
           }}
         />
-        <AddUser open={open} hideDrawer={hideDrawer} getList={getList} />
+        <AddUser
+          open={open}
+          id={userId}
+          hideDrawer={hideDrawer}
+          getList={getList}
+        />
       </div>
     </>
   );
