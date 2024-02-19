@@ -123,6 +123,10 @@ const AddUser = ({ open, hideDrawer, getList, id }) => {
                 value: "AUDIT_ADMIN",
                 label: "审计管理员",
               },
+              {
+                value: "USER",
+                label: "普通用户",
+              },
             ]}
           />
         </Form.Item>

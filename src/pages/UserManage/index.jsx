@@ -13,7 +13,7 @@ import {
 import "./index.scss";
 import AddUser from "./AddUser";
 import { getUserList, delUser, disableUser, enableUser } from "@/apis/user";
-import { roleEnum } from "@/common/enum.js";
+import { roleEnum } from "@/constant/user.js";
 
 const UserManage = () => {
   const [open, setOpen] = useState(false);
