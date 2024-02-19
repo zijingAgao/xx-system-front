@@ -60,7 +60,19 @@ const UserManage = () => {
     {
       title: "是否启用",
       dataIndex: "enabled",
-      render: (text) => <Switch checked={text} />,
+      render: (text, record) => (
+        <Popconfirm
+          title={text ? "禁用用户" : "启用用户"}
+          description={
+            text ? "你确定要禁用该用户吗？" : "你确定要启用该用户吗？"
+          }
+          onConfirm={() => onChangeStatus(text, record.id)}
+          okText="确定"
+          cancelText="取消"
+        >
+          <Switch checked={text} />
+        </Popconfirm>
+      ),
     },
     {
       title: "操作",
@@ -132,6 +144,21 @@ const UserManage = () => {
   const onUpdate = (id) => {
     userId.current = id;
     setOpen(true);
+  };
+  // 启用or禁用
+  const onChangeStatus = async (val, id) => {
+    try {
+      if (val) {
+        await disableUser(id);
+        message.success("禁用用户成功");
+      } else {
+        await enableUser(id);
+        message.success("启用用户成功");
+      }
+      setReqData({
+        ...reqData,
+      });
+    } catch (error) {}
   };
 
   return (
