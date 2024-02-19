@@ -2,10 +2,10 @@ import { Layout, Menu, Popconfirm } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { HomeOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
 import "./index.scss";
-import { logout } from "@/apis/user";
+import { logout } from "@/apis/login";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchUserInfo } from "@/store/modules/user";
+import { fetchUserInfo, clearUserInfo } from "@/store/modules/user";
 
 const { Header, Sider } = Layout;
 
@@ -43,7 +43,13 @@ const MyLayout = () => {
   const nickName = useSelector((state) => state.user.userInfo.nickName);
 
   // 退出登录确认回调
-  const onConfirm = () => {};
+  const onConfirm = async () => {
+    try {
+      await logout();
+      dispatch(clearUserInfo());
+      navigate("/login");
+    } catch (error) {}
+  };
   return (
     <Layout>
       <Header className="header">
