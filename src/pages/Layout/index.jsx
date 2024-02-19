@@ -1,51 +1,62 @@
-import { Layout, Menu, Popconfirm } from "antd"
-import {
-  HomeOutlined,
-  UserOutlined,
-  LogoutOutlined
-} from '@ant-design/icons'
-import './index.scss'
-import { Outlet, useLocation, useNavigate } from "react-router-dom"
+import { Layout, Menu, Popconfirm } from "antd";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { HomeOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
+import "./index.scss";
+import { logout } from "@/apis/user";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchUserInfo } from "@/store/modules/user";
 
-const { Header, Sider} = Layout
+const { Header, Sider } = Layout;
 
 const items = [
   {
-    label: '首页',
-    key: '/',
-    icon: <HomeOutlined />
+    label: "首页",
+    key: "/",
+    icon: <HomeOutlined />,
   },
   {
-    label: '用户管理',
-    key: '/user',
-    icon: <UserOutlined />
+    label: "用户管理",
+    key: "/user",
+    icon: <UserOutlined />,
   },
-]
+];
 
 const MyLayout = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onMenuClick = (route) => {
-    const path = route.key
-    navigate(path)
-  }
+    const path = route.key;
+    navigate(path);
+  };
 
   // 菜单反向高亮
-  const location = useLocation()
-  const selectedKey = location.pathname
+  const location = useLocation();
+  const selectedKey = location.pathname;
+
+  // 触发获取用户信息action
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+  }, [dispatch]);
+
+  const nickName = useSelector((state) => state.user.userInfo.nickName);
 
   // 退出登录确认回调
-  const onConfirm = () => {
-    
-  }
+  const onConfirm = () => {};
   return (
     <Layout>
       <Header className="header">
         <div className="logo" />
         <div className="user-info">
-          <span className="user-name">username</span>
+          <span className="user-name">{nickName || "-"}</span>
           <span className="user-logout">
-            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消" onConfirm={onConfirm}>
+            <Popconfirm
+              title="是否确认退出？"
+              okText="退出"
+              cancelText="取消"
+              onConfirm={onConfirm}
+            >
               <LogoutOutlined /> 退出
             </Popconfirm>
           </span>
@@ -66,7 +77,7 @@ const MyLayout = () => {
         </Layout>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
-export default MyLayout
+export default MyLayout;

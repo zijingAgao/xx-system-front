@@ -27,7 +27,7 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   (response) => {
     const {
-      data: { code, data, msg },
+      data: { code, msg },
     } = response;
     if (code !== 200) {
       message.error(msg);

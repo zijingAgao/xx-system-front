@@ -1,10 +1,10 @@
-import "./index.scss";
 import { Card, Form, Input, Button, message, Tabs } from "antd";
 import { useDispatch } from "react-redux";
 import { fetchLogin } from "@/store/modules/user";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import countdown from "@/utils/countdown";
+import "./index.scss";
 
 const Login = () => {
   const [count, setCount] = useState(-1);
