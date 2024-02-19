@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken, removeToken } from "@/utils";
 import router from "@/router";
-// import { message } from 'antd'
+import { message } from "antd";
 
 const request = axios.create({
   baseURL: "/api",
@@ -26,6 +26,14 @@ request.interceptors.request.use(
 // 响应拦截器
 request.interceptors.response.use(
   (response) => {
+    const {
+      data: { code, data, msg },
+    } = response;
+    if (code !== 200) {
+      message.error(msg);
+      // 产生错误
+      return Promise.reject(new Error(msg));
+    }
     return response.data;
   },
   (error) => {

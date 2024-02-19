@@ -19,24 +19,28 @@ const AddUser = ({ open, hideDrawer, getList, id }) => {
     setAutoPwd(checked);
   };
   const onFinish = async (formValue) => {
-    // 1.请求接口
-    if (id.current) {
-      // 编辑
-      await updateUser({ ...formValue, id: id.current });
-      message.success("编辑用户成功");
-    } else {
-      await addUser(formValue);
-      message.success("添加用户成功");
-    }
-    // 3.刷新列表
-    getList();
-    // 4.关闭表单
-    onClose();
+    try {
+      // 1.请求接口
+      if (id.current) {
+        // 编辑
+        await updateUser({ ...formValue, id: id.current });
+        message.success("编辑用户成功");
+      } else {
+        await addUser(formValue);
+        message.success("添加用户成功");
+      }
+      // 3.刷新列表
+      getList();
+      // 4.关闭表单
+      onClose();
+    } catch (err) {}
   };
   const onClose = () => {
     // 重置表单数据
     form.resetFields();
     id.current = undefined;
+    setAutoPwd(false);
+    setResetPwd(false);
     // 关闭表单
     hideDrawer();
   };
@@ -44,8 +48,10 @@ const AddUser = ({ open, hideDrawer, getList, id }) => {
   useEffect(() => {
     // 1.通过id获取数据
     async function getDetail() {
-      const res = await getUserDetail(id.current);
-      form.setFieldsValue(res.data);
+      try {
+        const res = await getUserDetail(id.current);
+        form.setFieldsValue(res.data);
+      } catch (error) {}
     }
     if (id.current) {
       getDetail();
