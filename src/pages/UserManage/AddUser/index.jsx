@@ -74,9 +74,9 @@ const AddUser = ({ open, hideDrawer, getList, id }) => {
             },
           ]}
         >
-          <Input placeholder="请填写邮箱" />
+          <Input placeholder="请填写邮箱" disabled={id.current} />
         </Form.Item>
-        <Form.Item label="用户名（选填）" name="nickName">
+        <Form.Item label="昵称（选填）" name="nickName">
           <Input placeholder="请填写用户名" />
         </Form.Item>
         <Form.Item
@@ -120,6 +120,7 @@ const AddUser = ({ open, hideDrawer, getList, id }) => {
             ]}
           />
         </Form.Item>
+        {/* TODO:label和switch级联的问题 */}
         {/* 重置密码 */}
         {id.current && (
           <Form.Item label="重置密码" name="resetPwd" initialValue={false}>
@@ -128,7 +129,7 @@ const AddUser = ({ open, hideDrawer, getList, id }) => {
         )}
         {/* 自动生成密码 */}
         {(id.current === undefined || resetPwd) && (
-          <Form.Item label="自动生成密码" name="autoPwd" initialValue={autoPwd}>
+          <Form.Item label="自动生成密码" name="autoPwd" initialValue={false}>
             <Switch onChange={onChange} />
           </Form.Item>
         )}

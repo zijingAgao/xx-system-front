@@ -32,7 +32,7 @@ const UserManage = () => {
       render: (text, record, index) => index + 1,
     },
     {
-      title: "用户姓名",
+      title: "昵称",
       dataIndex: "nickName",
       render: (text) => (text ? text : "-"),
     },
