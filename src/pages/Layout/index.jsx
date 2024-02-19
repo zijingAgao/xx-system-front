@@ -33,6 +33,11 @@ const MyLayout = () => {
   // 菜单反向高亮
   const location = useLocation()
   const selectedKey = location.pathname
+
+  // 退出登录确认回调
+  const onConfirm = () => {
+    
+  }
   return (
     <Layout>
       <Header className="header">
@@ -40,7 +45,7 @@ const MyLayout = () => {
         <div className="user-info">
           <span className="user-name">username</span>
           <span className="user-logout">
-            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消">
+            <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消" onConfirm={onConfirm}>
               <LogoutOutlined /> 退出
             </Popconfirm>
           </span>

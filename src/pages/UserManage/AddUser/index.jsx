@@ -14,6 +14,7 @@ import { addUser, getUserDetail, updateUser } from "@/apis/user";
 const AddUser = ({ open, hideDrawer, getList, id }) => {
   const [form] = Form.useForm();
   const [autoPwd, setAutoPwd] = useState(false);
+  const [resetPwd, setResetPwd] = useState(false);
   const onChange = (checked) => {
     setAutoPwd(checked);
   };
@@ -119,11 +120,21 @@ const AddUser = ({ open, hideDrawer, getList, id }) => {
             ]}
           />
         </Form.Item>
-        {/* 密码 */}
-        <Form.Item label="自动生成密码" name="autoPwd" initialValue={autoPwd}>
-          <Switch onChange={onChange} />
-        </Form.Item>
-        {autoPwd === false && (
+        {/* 重置密码 */}
+        {id.current && (
+          <Form.Item label="重置密码" name="resetPwd" initialValue={false}>
+            <Switch onChange={(checked) => setResetPwd(checked)} />
+          </Form.Item>
+        )}
+        {/* 自动生成密码 */}
+        {(id.current === undefined || resetPwd) && (
+          <Form.Item label="自动生成密码" name="autoPwd" initialValue={autoPwd}>
+            <Switch onChange={onChange} />
+          </Form.Item>
+        )}
+        {/* 手动设置密码 */}
+        {((id.current === undefined && autoPwd === false) ||
+          (resetPwd && autoPwd === false)) && (
           <Form.Item
             label="密码"
             name="password"
