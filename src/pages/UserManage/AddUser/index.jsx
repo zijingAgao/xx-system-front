@@ -10,6 +10,7 @@ import {
   message,
 } from "antd";
 import { addUser, getUserDetail, updateUser } from "@/apis/user";
+import { roleOption } from "@/constant/user.js";
 
 const AddUser = ({ open, hideDrawer, getList, id }) => {
   const [form] = Form.useForm();
@@ -114,20 +115,7 @@ const AddUser = ({ open, hideDrawer, getList, id }) => {
           <Select
             placeholder="请选择角色"
             mode="multiple"
-            options={[
-              {
-                value: "ADMIN",
-                label: "系统管理员",
-              },
-              {
-                value: "AUDIT_ADMIN",
-                label: "审计管理员",
-              },
-              {
-                value: "USER",
-                label: "普通用户",
-              },
-            ]}
+            options={roleOption}
           />
         </Form.Item>
         {/* TODO:label和switch级联的问题 */}

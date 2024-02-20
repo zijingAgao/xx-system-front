@@ -9,11 +9,12 @@ import {
   Form,
   Popconfirm,
   message,
+  Select,
 } from "antd";
 import "./index.scss";
 import AddUser from "./AddUser";
 import { getUserList, delUser, disableUser, enableUser } from "@/apis/user";
-import { roleEnum } from "@/constant/user.js";
+import { roleEnum, roleOption } from "@/constant/user.js";
 
 const UserManage = () => {
   const [open, setOpen] = useState(false);
@@ -116,9 +117,9 @@ const UserManage = () => {
   const hideDrawer = () => {
     setOpen(false);
   };
-
+  // 查询
   const onFinish = (formValue) => {
-    setReqData({ ...reqData, username: formValue.username });
+    setReqData({ ...reqData, ...formValue });
   };
   // 分页
   const onPageChange = (page, pageSize) => {
@@ -167,6 +168,26 @@ const UserManage = () => {
         <Form layout="inline" onFinish={onFinish}>
           <Form.Item name="username" label="邮箱">
             <Input placeholder="请输入邮箱" />
+          </Form.Item>
+          <Form.Item name="nickName" label="昵称">
+            <Input placeholder="请输入昵称" />
+          </Form.Item>
+          <Form.Item name="mobile" label="手机号">
+            <Input placeholder="请输入手机号" />
+          </Form.Item>
+          <Form.Item
+            name="roles"
+            label="角色"
+            wrapperCol={{ style: { width: "350px" } }}
+          >
+            <Select
+              placeholder="请选择角色"
+              mode="multiple"
+              options={roleOption}
+            />
+          </Form.Item>
+          <Form.Item name="enabled" label="是否启用">
+            <Switch />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
