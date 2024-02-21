@@ -215,7 +215,7 @@ const UserManage = () => {
           columns={columns}
           dataSource={list}
           pagination={{
-            // current: reqData.page + 1,
+            current: reqData.page + 1,
             total,
             showTotal: () => `共 ${total} 条`,
             onChange: onPageChange,
