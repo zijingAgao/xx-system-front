@@ -118,17 +118,22 @@ const AddUser = ({ open, hideDrawer, getList, id }) => {
             options={roleOption}
           />
         </Form.Item>
-        {/* TODO:label和switch级联的问题 */}
         {/* 重置密码 */}
         {id.current && (
-          <Form.Item label="重置密码" name="resetPwd" initialValue={false}>
-            <Switch onChange={(checked) => setResetPwd(checked)} />
+          <Form.Item name="resetPwd" initialValue={false}>
+            <Space direction="vertical">
+              <label>重置密码</label>
+              <Switch onChange={(checked) => setResetPwd(checked)} />
+            </Space>
           </Form.Item>
         )}
         {/* 自动生成密码 */}
         {(id.current === undefined || resetPwd) && (
-          <Form.Item label="自动生成密码" name="autoPwd" initialValue={false}>
-            <Switch onChange={onChange} />
+          <Form.Item name="autoPwd" initialValue={false}>
+            <Space direction="vertical">
+              <label>自动生成密码</label>
+              <Switch onChange={onChange} />
+            </Space>
           </Form.Item>
         )}
         {/* 手动设置密码 */}
