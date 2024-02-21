@@ -129,16 +129,22 @@ const UserManage = () => {
     });
   };
   // 删除
-  // TODO:删除有点小问题: table表格末页数据删除后，分页回退处理
   const onConfirm = async (id) => {
     try {
       // 1.调用删除接口
       await delUser(id);
       // 2.提示成功
       message.success("删除用户成功");
-      setReqData({
-        ...reqData,
-      });
+      if (list.length - 1 === 0 && reqData.page > 0) {
+        setReqData({
+          ...reqData,
+          page: reqData.page - 1,
+        });
+      } else {
+        setReqData({
+          ...reqData,
+        });
+      }
     } catch (error) {}
   };
   // 编辑
@@ -209,6 +215,7 @@ const UserManage = () => {
           columns={columns}
           dataSource={list}
           pagination={{
+            // current: reqData.page + 1,
             total,
             showTotal: () => `共 ${total} 条`,
             onChange: onPageChange,
